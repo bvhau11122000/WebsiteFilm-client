@@ -1,0 +1,25 @@
+:root {
+    --icon-PhoneOutlined: rgba(138, 43, 226, 0.25);
+    --icon-AndroidOutlined : rgba(11, 129, 169, 0.25);
+    --icon-ReadOutlined: rgba(0, 255, 255, 0.25);
+  }
+  .icon-all {
+    border-radius: 12px;
+    padding: 8px;
+    font-size: 24px;
+  }
+  
+  .icon-PhoneOutlined{
+    background-color: var(--icon-PhoneOutlined);
+    color: #66ffff;
+  }
+  .icon-AndroidOutlined  {
+    background-color: var(--icon-AndroidOutlined);
+    color: #f805cf;
+  }
+  .icon-ReadOutlined {
+    background-color: var(--icon-ReadOutlined);
+    color: #000000;
+  }
+  
+  

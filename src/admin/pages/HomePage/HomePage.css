@@ -1,0 +1,28 @@
+:root {
+  --icon-UserOutlined: rgba(138, 43, 226, 0.25);
+  --icon-HeartOutlined : rgba(11, 129, 169, 0.25);
+  --icon-FormOutlined: rgba(0, 255, 255, 0.25);
+  --icon-VideoCameraOutlined : rgba(128, 128, 128, 0.25);
+}
+.icon-all {
+  border-radius: 12px;
+  padding: 8px;
+  font-size: 24px;
+}
+
+.icon-UserOutlined {
+  background-color: var(--icon-UserOutlined);
+  color: #ac1123;
+}
+.icon-HeartOutlined  {
+  background-color: var(--icon-HeartOutlined );
+  color: #f805cf;
+}
+.icon-FormOutlined {
+  background-color: var(--icon-FormOutlined);
+  color: #000000;
+}
+.icon-VideoCameraOutlined  {
+  background-color: var(--icon-VideoCameraOutlined );
+  color: #ff3300;
+}
