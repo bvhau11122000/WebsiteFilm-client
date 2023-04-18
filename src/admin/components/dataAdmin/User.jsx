@@ -34,7 +34,7 @@ const User = () => {
       <Table 
         dataSource={users || []}
         columns={[
-          { title: "id", dataIndex: "ID", key: "id" },
+          { title: "ID", dataIndex: "id", key: "id" },
           { title: "username", dataIndex: "username",key: "username"},
           { title: "DisplayName", dataIndex: "displayName", key: "displayName"},
           { title: "Password", dataIndex: "password", key: "password",},

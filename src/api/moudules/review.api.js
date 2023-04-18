@@ -48,7 +48,6 @@ const reviewApi = {
   getAll: async () => {
     try {
       const response = await privateClient.get(reviewEndpoints.all);
-      console.log("hhdh",response)
       return { response };
     } catch (err) { return { err }; }
   }

@@ -1,8 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {  Space, Table,  } from "antd";
-
+import mediaApi from '../../../api/moudules/media.api';
 const View = () => {
     
+  const [users, setUsers] = useState([]);
+
+  // lấy data user
+  useEffect(() => {
+    const fetchUsers = async () => {
+      console.log("HAHAH");
+      const { response } = await mediaApi.getList();
+      console.log(response);
+      if (response) {
+        setUsers(response);
+      } 
+    };
+    fetchUsers();
+  }, []);
   return (
     <div>
       <Space size={20} direction="vertical">
@@ -18,7 +32,7 @@ const View = () => {
           { title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt", },
           
         ]}
-      
+        dataSource={users || []}
         pagination={{
           pageSize: 5
         }}

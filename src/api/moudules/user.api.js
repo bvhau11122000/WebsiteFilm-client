@@ -42,7 +42,6 @@ const userApi = {
   getAll: async () => {
     try {
       const response = await privateClient.get(userEndpoints.getAll);
-      console.log("hsu",response);
 
       return { response };
     } catch (err) { return { err }; }
