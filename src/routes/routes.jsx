@@ -7,6 +7,8 @@ import MediaSearch from "../pages/MediaSearch";
 import PasswordUpdate from "../pages/PasswordUpdate";
 import ReviewList from "../pages/ReviewList";
 import ProtectedPage from "../components/common/ProtectedPage";
+import MediaWatching from "../pages/MediaWatching";
+
 
 
 export const routesGen = {
@@ -71,6 +73,12 @@ const routes = [
     path: "/:mediaType/:mediaId",
     element: <MediaDetail />
   },
+  {
+    path: "/:mediaType/:mediaId/watch",
+    element: <MediaWatching />
+  },
+  
+ 
 
 ];
 

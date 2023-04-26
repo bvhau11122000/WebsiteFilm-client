@@ -6,7 +6,7 @@ import { LoadingButton } from "@mui/lab";
 import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import CircularRate from "../components/common/CircularRate";
@@ -23,12 +23,6 @@ import { setAuthModalOpen } from "../redux/features/authModalSlice";
 import { addFavorite, removeFavorite } from "../redux/features/userSlice";
 
 import CastSlide from "../components/common/CastSlide";
-import MediaVideosSlide from "../components/common/MediaVideosSlide";
-import BackdropSlide from "../components/common/BackdropSide";
-import PosterSlide from "../components/common/PosterSlide";
-import RecommendSlide from "../components/common/RecommendSlide";
-import MediaSlide from "../components/common/MediaSlide";
-import MediaReview from "../components/common/MediaReview";
 
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
@@ -41,8 +35,8 @@ const MediaDetail = () => {
   const [genres, setGenres] = useState([]);
 
   const dispatch = useDispatch();
+  const navigation = useNavigate();
 
-  const videoRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -55,11 +49,12 @@ const MediaDetail = () => {
         setMedia(response);
         setIsFavorite(response.isFavorite);
         setGenres(response.genres.splice(0, 2));
+        
       }
 
       if (err) toast.error(err.message);
     };
-
+    
     getMedia();
   }, [mediaType, mediaId, dispatch]);
 
@@ -200,12 +195,13 @@ const MediaDetail = () => {
                       loading={onRequest}
                       onClick={onFavoriteClick}
                     />
+                    
                     <Button
                       variant="contained"
                       sx={{ width: "max-content" }}
                       size="large"
                       startIcon={<PlayArrowIcon />}
-                      onClick={() => videoRef.current.scrollIntoView()}
+                      onClick={() => navigation(`/${mediaType}/${mediaId}/watch`)}
                     >
                       watch now
                     </Button>
@@ -223,48 +219,6 @@ const MediaDetail = () => {
             </Box>
           </Box>
           {/* media content */}
-
-          {/* media videos */}
-          <div ref={videoRef} style={{ paddingTop: "2rem" }}>
-            <Container header="Videos">
-              <MediaVideosSlide videos={[...media.videos.results].splice(0, 5)} />
-            </Container>
-          </div>
-          {/* media videos */}
-
-          {/* media backdrop */}
-          {media.images.backdrops.length > 0 && (
-            <Container header="backdrops">
-              <BackdropSlide backdrops={media.images.backdrops} />
-            </Container>
-          )}
-          {/* media backdrop */}
-
-          {/* media posters */}
-          {media.images.posters.length > 0 && (
-            <Container header="posters">
-              <PosterSlide posters={media.images.posters} />
-            </Container>
-          )}
-          {/* media posters */}
-
-          {/* media reviews */}
-          <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />
-          {/* media reviews */}
-
-          {/* media recommendation */}
-          <Container header="you may also like">
-            {media.recommend.length > 0 && (
-              <RecommendSlide medias={media.recommend} mediaType={mediaType} />
-            )}
-            {media.recommend.length === 0 && (
-              <MediaSlide
-                mediaType={mediaType}
-                mediaCategory={tmdbConfigs.mediaCategory.top_rated}
-              />
-            )}
-          </Container>
-          {/* media recommendation */}
         </Box>
       </>
     ) : null
