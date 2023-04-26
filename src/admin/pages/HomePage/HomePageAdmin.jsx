@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, Space, Statistic, Table } from "antd";
-import {UserOutlined, HeartOutlined, VideoCameraOutlined, FormOutlined,} from "@ant-design/icons";
+import {UserOutlined, HeartOutlined, VideoCameraOutlined, FormOutlined,EyeOutlined } from "@ant-design/icons";
 
 import favoriteApi from '../../../api/moudules/favorite.api';
 import userApi from '../../../api/moudules/user.api.js';
 import reviewApi from '../../../api/moudules/review.api';
-import { getChart, } from "../../../api/index";
 
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,} from "chart.js";
-import { Bar } from "react-chartjs-2";
 import "./HomePage.css";
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip,  Legend);
 
@@ -16,6 +14,7 @@ const HomePageAdmin = () => {
  
   const [users, setUsers] = useState(0);
   const [favorite, setFavorites] = useState(0);
+  const [views, setVews] = useState(0);
   const [reviews, setReviews] = useState([]);
   
 // lấy data user
@@ -70,6 +69,14 @@ const HomePageAdmin = () => {
           </HomeCard>
 
           <HomeCard
+            icon={<EyeOutlined  className="icon-all icon-HeartOutlined " />}
+            title={"Views"}
+            value={views}
+          > 
+
+          </HomeCard>
+
+          <HomeCard
             icon={<FormOutlined className="icon-all icon-FormOutlined" />}
             title={"Reviews"}
             value={reviews}
@@ -85,7 +92,7 @@ const HomePageAdmin = () => {
         </Space>
         <Space>
           <Inf />
-          <Chart />
+          
         </Space>
       </Space>
     </div>
@@ -158,8 +165,7 @@ function Inf() {
   const columns = [   
     { title: "Users", dataIndex: "username" }, 
     { title: "Favorites", dataIndex: "mediaTitle" },    
-    { title: "Reviews", dataIndex: "content" },    
-    { title: "Films", dataIndex: "" },    
+    { title: "Reviews", dataIndex: "content" },      
     { title: "Views", dataIndex: "" },  
   ];
 
@@ -168,60 +174,11 @@ function Inf() {
       columns={columns} 
       dataSource={data} 
       pagination={{
-        pageSize: 3
+        pageSize: 5
       }}
     />  
   );
 }
 
-// hiển thi sơ đồ 
-function Chart() {
-  const [reve, setReve] = useState({
-    labels: [],
-    datasets: [],
-  });
-  useEffect(() => {
-    getChart().then((res) => {
-      const labels = res.carts.map((cart) => {
-        return `User-${cart.userId}`;
-      });
-      const data = res.carts.map((cart) => {
-        return cart.discountedTotal;
-      });
-
-      const dataSource = {
-        labels,
-        datasets: [
-          {
-            label: "",
-            data: data,
-            backgroundColor: "rgba(153, 50, 204, 0.5)",
-          },
-        ],
-      };
-      setReve(dataSource);
-    });
-  }, []);
-  const options = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: "bottom",
-      },
-      title: {
-        display: true,
-        text: "Statistical",
-      },
-    },
-  };
-
-  return (
-    <div>
-    <Card style={{ width: 400, height: 250 }}>
-      <Bar options={options} data={reve} />
-    </Card>
-    </div>
-  );
-}
 
 export default HomePageAdmin;

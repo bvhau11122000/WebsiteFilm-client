@@ -17,7 +17,8 @@ const UserMenu = () => {
 
   return (
     <>
-      {user && (
+      {user && user.displayName === "Vanhau2000" ? (
+        // Nếu user có tồn tại và displayName bằng "Vanhau2000"
         <>
           <Typography
             variant="h6"
@@ -32,7 +33,7 @@ const UserMenu = () => {
             onClose={() => setAnchorEl(null)}
             PaperProps={{ sx: { padding: 0 } }}
           >
-            {menuConfigs.user.map((item, index) => (
+            {menuConfigs.admin.map((item, index) => (
               <ListItemButton
                 component={Link}
                 to={item.path}
@@ -40,9 +41,14 @@ const UserMenu = () => {
                 onClick={() => setAnchorEl(null)}
               >
                 <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText disableTypography primary={
-                  <Typography textTransform="uppercase">{item.display}</Typography>
-                } />
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Typography textTransform="uppercase">
+                      {item.display}
+                    </Typography>
+                  }
+                />
               </ListItemButton>
             ))}
             <ListItemButton
@@ -56,6 +62,53 @@ const UserMenu = () => {
             </ListItemButton>
           </Menu>
         </>
+      ) : (
+        // Nếu user có tồn tại và displayName khác "Vanhau2000"
+        user && (
+          <>
+            <Typography
+              variant="h6"
+              sx={{ cursor: "pointer", userSelect: "none" }}
+              onClick={toggleMenu}
+            >
+              {user.displayName}
+            </Typography>
+            <Menu
+              open={Boolean(anchorEl)}
+              anchorEl={anchorEl}
+              onClose={() => setAnchorEl(null)}
+              PaperProps={{ sx: { padding: 0 } }}
+            >
+              {menuConfigs.user.map((item, index) => (
+                <ListItemButton
+                  component={Link}
+                  to={item.path}
+                  key={index}
+                  onClick={() => setAnchorEl(null)}
+                >
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText
+                    disableTypography
+                    primary={
+                      <Typography textTransform="uppercase">
+                        {item.display}
+                      </Typography>
+                    }
+                  />
+                </ListItemButton>
+              ))}
+              <ListItemButton
+                sx={{ borderRadius: "10px" }}
+                onClick={() => dispatch(setUser(null))}
+              >
+                <ListItemIcon><LogoutOutlinedIcon /></ListItemIcon>
+                <ListItemText disableTypography primary={
+                  <Typography textTransform="uppercase">sign out</Typography>
+                } />
+              </ListItemButton>
+            </Menu>
+          </>
+        )
       )}
     </>
   );

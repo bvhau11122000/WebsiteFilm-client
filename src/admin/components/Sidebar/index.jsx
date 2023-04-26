@@ -25,7 +25,6 @@ const Sidebar = () => {
         className="DbSidebarMenu"
         mode="vertical"
         onClick={(item) => {
-          // item.key
           navigate(item.key);
         }}
         selectedKeys={[selectedKeys]}

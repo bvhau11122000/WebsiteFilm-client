@@ -1,4 +1,5 @@
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import SlideshowOutlinedIcon from "@mui/icons-material/SlideshowOutlined";
 import LiveTvOutlinedIcon from "@mui/icons-material/LiveTvOutlined";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
@@ -53,7 +54,33 @@ const user = [
     state: "password.update"
   }
 ];
+const admin = [
+  {
+    display: "admin",
+    path: "/admin",
+    icon: <AccountCircleIcon />,
+    state: "admin"
+  },
+  {
+    display: "favorites",
+    path: "/favorites",
+    icon: <FavoriteBorderOutlinedIcon />,
+    state: "favorite"
+  },
+  {
+    display: "reviews",
+    path: "/reviews",
+    icon: <RateReviewOutlinedIcon />,
+    state: "reviews"
+  },
+  {
+    display: "password update",
+    path: "/password-update",
+    icon: <LockResetOutlinedIcon />,
+    state: "password.update"
+  }
+];
 
-const menuConfigs = { main, user };
+const menuConfigs = { main, user,admin };
 
 export default menuConfigs;

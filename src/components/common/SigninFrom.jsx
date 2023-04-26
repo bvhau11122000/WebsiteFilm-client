@@ -8,9 +8,11 @@ import * as Yup from "yup";
 import userApi from "../../api/moudules/user.api.js";
 import { setAuthModalOpen } from "../../redux/features/authModalSlice";
 import { setUser } from "../../redux/features/userSlice";
+import { Link} from "react-router-dom";
 
 const SigninForm = ({ switchAuthState }) => {
   const dispatch = useDispatch();
+ 
 
   const [isLoginRequest, setIsLoginRequest] = useState(false);
   const [errorMessage, setErrorMessage] = useState();
@@ -43,6 +45,10 @@ const SigninForm = ({ switchAuthState }) => {
       }
 
       if (err) setErrorMessage(err.message);
+
+      if(values.username ===" Vanhau2000" && values.password ==="1234567890"){
+          
+      }
     }
   });
 
@@ -80,6 +86,7 @@ const SigninForm = ({ switchAuthState }) => {
         variant="contained"
         sx={{ marginTop: 4 }}
         loading={isLoginRequest}
+      
       >
         sign in
       </LoadingButton>
