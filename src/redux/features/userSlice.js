@@ -25,6 +25,9 @@ export const userSlice = createSlice({
     },
     addFavorite: (state, action) => {
       state.listFavorites = [action.payload, ...state.listFavorites];
+    },
+    addView: (state, action) => {
+      state.listFavorites = [action.payload, ...state.listFavorites];
     }
   }
 });
@@ -33,6 +36,7 @@ export const {
   setUser,
   setListFavorites,
   addFavorite,
+  addView,
   removeFavorite
 } = userSlice.actions;
 

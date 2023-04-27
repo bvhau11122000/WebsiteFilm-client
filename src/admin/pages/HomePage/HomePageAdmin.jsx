@@ -5,6 +5,8 @@ import {UserOutlined, HeartOutlined, VideoCameraOutlined, FormOutlined,EyeOutlin
 import favoriteApi from '../../../api/moudules/favorite.api';
 import userApi from '../../../api/moudules/user.api.js';
 import reviewApi from '../../../api/moudules/review.api';
+import viewApi from '../../../api/moudules/view.api';
+import filmApi from '../../../api/moudules/flim.api.js';
 
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,} from "chart.js";
 import "./HomePage.css";
@@ -12,10 +14,11 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip,  Legend
 
 const HomePageAdmin = () => {
  
-  const [users, setUsers] = useState(0);
-  const [favorite, setFavorites] = useState(0);
-  const [views, setVews] = useState(0);
+  const [users, setUsers] = useState([]);
+  const [favorite, setFavorites] = useState([]);
+  const [views, setViews] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [films, setFimls] = useState([]);
   
 // lấy data user
   useEffect(() => {
@@ -50,6 +53,28 @@ const HomePageAdmin = () => {
     fetchUsers();
   }, []);
 
+  //lấy data view
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { response } = await viewApi.getAll();
+      if (response) {
+        setViews(response.length);
+      } 
+    };
+    fetchUsers();
+  }, []);
+
+  //lấy data film
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { response } = await filmApi.getAll();
+      if (response) {
+        setFimls(response.length);
+      } 
+    };
+    fetchUsers();
+  }, []);
+
   return (
     <div className="HomePage">
       <Space size={12} direction="vertical">
@@ -73,7 +98,6 @@ const HomePageAdmin = () => {
             title={"Views"}
             value={views}
           > 
-
           </HomeCard>
 
           <HomeCard
@@ -85,14 +109,14 @@ const HomePageAdmin = () => {
 
           <HomeCard
             icon={<VideoCameraOutlined className="icon-all icon-VideoCameraOutlined " />}
-            title={"Films"} 
+            title={"Films"}
+            value={films} 
           >
           </HomeCard>
 
         </Space>
         <Space>
-          <Inf />
-          
+          <Inf /> 
         </Space>
       </Space>
     </div>
@@ -116,6 +140,7 @@ function Inf() {
   const [favorite, setFavorites] = useState([]);
   const [users, setUsers] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [views, setViews] = useState([]);
 
    //lấy data user
   useEffect(() => {
@@ -150,15 +175,30 @@ function Inf() {
     fetchUsers();
   }, []);
 
+  //lấy data view
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { response } = await viewApi.getAll();
+      console.log("view",response)
+      if (response) {
+        setViews(response);
+      } 
+    };
+    fetchUsers();
+  }, []);
+
   const data = users.map((user) => {
     const userFavorites = favorite.filter((item) => item.user === user.id); 
-    const userReviews = reviews.filter((item) => item.user === user.id); 
+    const userReviews = reviews.filter((item) => item.user === user.id);
+    const userViews = views.filter((item) => item.user === user.id);  
+
   
     return {
       key: user.id,
       username: user.username,
       mediaTitle: userFavorites.map((favorite) => favorite.mediaTitle).join(", "),
       content:  userReviews.map((reviews) => reviews.content).join(", "),
+      mediaTitles: userViews.map((views) => views.mediaTitle).join(", "),
     }; 
   });
 
@@ -166,7 +206,7 @@ function Inf() {
     { title: "Users", dataIndex: "username" }, 
     { title: "Favorites", dataIndex: "mediaTitle" },    
     { title: "Reviews", dataIndex: "content" },      
-    { title: "Views", dataIndex: "" },  
+    { title: "Views", dataIndex: "mediaTitles" },  
   ];
 
   return (
@@ -174,7 +214,7 @@ function Inf() {
       columns={columns} 
       dataSource={data} 
       pagination={{
-        pageSize: 5
+        pageSize: 4
       }}
     />  
   );

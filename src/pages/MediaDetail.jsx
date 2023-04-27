@@ -4,7 +4,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState,  } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,10 +17,11 @@ import uiConfigs from "../configs/ui.configs";
 import tmdbConfigs from '../api/configs/tmdn.configs.js'
 import mediaApi from "../api/moudules/media.api.js"
 import favoriteApi from "../api/moudules/favorite.api.js"
+import viewApi from "../api/moudules/view.api.js"
 
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice";
 import { setAuthModalOpen } from "../redux/features/authModalSlice";
-import { addFavorite, removeFavorite } from "../redux/features/userSlice";
+import { addFavorite, addView, removeFavorite } from "../redux/features/userSlice";
 
 import CastSlide from "../components/common/CastSlide";
 
@@ -28,9 +29,11 @@ const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
 
   const { user, listFavorites } = useSelector((state) => state.user);
+  const { view, listView } = useSelector((state) => state.user);
 
   const [media, setMedia] = useState();
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isView, setIsView] = useState(false);
   const [onRequest, setOnRequest] = useState(false);
   const [genres, setGenres] = useState([]);
 
@@ -87,6 +90,30 @@ const MediaDetail = () => {
       dispatch(addFavorite(response));
       setIsFavorite(true);
       toast.success("Add favorite success");
+    }
+  };
+  const onViewClick = async () => {
+
+    if (onRequest) return;
+    setOnRequest(true);
+
+    const body = {
+      mediaId: media.id,
+      mediaTitle: media.title || media.name,
+      mediaType: mediaType,
+      mediaPoster: media.poster_path,
+      mediaRate: media.vote_average
+    };
+
+    const { response, err } = await viewApi.add(body);
+
+    setOnRequest(false);
+
+    if (err) toast.error(err.message);
+    if (response) {
+      dispatch(addView(response));
+      setIsView(true);
+      toast.success("Add View success");
     }
   };
 
@@ -200,8 +227,15 @@ const MediaDetail = () => {
                       variant="contained"
                       sx={{ width: "max-content" }}
                       size="large"
-                      startIcon={<PlayArrowIcon />}
-                      onClick={() => navigation(`/${mediaType}/${mediaId}/watch`)}
+                      startIcon={ isView ? <PlayArrowIcon />: <></>}
+                      loadingPosition="start"
+                      loading={onRequest}
+                      onClick={() => {
+                        onViewClick() 
+                        navigation(`/${mediaType}/${mediaId}/watch`)}
+                      
+                      }
+
                     >
                       watch now
                     </Button>
