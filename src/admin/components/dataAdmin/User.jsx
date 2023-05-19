@@ -39,12 +39,12 @@ const User = () => {
           { title: "DisplayName", dataIndex: "displayName", key: "displayName"},
           { title: "Password", dataIndex: "password", key: "password",},
           { title: "CreatedAt", dataIndex: "createdAt", key: "createdAt",},
-          {title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt", },
+          { title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt", },
           { title: "Delete", dataIndex: "Delete",key: "delete",
             render: (text, record) => (
               <Space size="middle">
                 <Popconfirm
-                  title="Bạn có chắc chắn muốn xóa?"
+                  title="Are you sure you want to delete?"
                   onConfirm={() => handleDelete(record)}
                 > 
                   <Button>
@@ -56,7 +56,7 @@ const User = () => {
           }
         ]}
         pagination={{
-        pageSize: 5
+        pageSize: 9
       }}
     />
     </Space>

@@ -120,21 +120,6 @@ const MediaWatching = () => {
           <MediaReview reviews={media.reviews} media={media} mediaType={mediaType} />
           {/* media reviews */}
 
-          {/* media backdrop */}
-          {media.images.backdrops.length > 0 && (
-            <Container header="backdrops">
-              <BackdropSlide backdrops={media.images.backdrops} />
-            </Container>
-          )}
-          {/* media backdrop */}
-
-          {/* media posters */}
-          {media.images.posters.length > 0 && (
-            <Container header="posters">
-              <PosterSlide posters={media.images.posters} />
-            </Container>
-          )}
-          {/* media posters */}
 
           {/* media recommendation */}
           <Container header="you may also like">

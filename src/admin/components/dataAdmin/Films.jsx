@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react'
-import {  Space, Table, Input,Button,Popconfirm } from "antd";
+import {  Space, Table, Input,Button,Popconfirm,Form, Modal, Option ,Select } from "antd";
 import {  DeleteOutlined,} from "@ant-design/icons";
 import filmApi from '../../../api/moudules/flim.api';
 
+
 const Films = () => {
+  
    
   const [films, setFilms] = useState([]);
   const [moviesname, setMoviesname] = useState("");
@@ -12,6 +14,26 @@ const Films = () => {
   const [mediaTitle, setMediaTitle] = useState("");
   const [mediaPoster, setMediaPoster] = useState("");
   const [mediaRate, setMediaRate] = useState("");
+
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const handleOk = () => {
+    handleAddFilm();
+    setConfirmLoading(true);           
+    setTimeout(() => {    
+      setOpen(false);
+      setConfirmLoading(false);
+    }, 500);
+  };
+
+  const handleCancel = () => {
+    setOpen(false);
+  };
 
   const handleAddFilm = async () => {
     const result = await filmApi.add ({
@@ -22,8 +44,8 @@ const Films = () => {
       mediaPoster,
       mediaRate
     });
-    if (result.success) {
-      // clear input values
+    console.log(result,"hihihih");
+    if (result.response) {
       setMoviesname("");
       setMediaId("");
       setMediaType("");
@@ -33,6 +55,7 @@ const Films = () => {
     }
     const fetchUsers = async () => {
       const { response } = await filmApi.getAll();
+      
       if (response) {
         setFilms(response);
       } 
@@ -54,54 +77,98 @@ const Films = () => {
 
   const handleDelete = async (record) => {
     const { response } = await filmApi.remove({ filmId: record.id });
-    console.log("delete",response);
     if (response) {
       const newFilm = films.filter((item) => item.id !== record.id);
       setFilms(newFilm);
-      console.log("delete1",newFilm);
     }
   };
   return (
     <div>
       <Space size={20} direction="vertical">
       <Space direction="vertical">
-      <Space>
-        <Input
-          value={moviesname}
-          onChange={(e) => setMoviesname(e.target.value)}
-          placeholder="Films"
-        />
-        <Input
-          value={mediaId}
-          onChange={(e) => setMediaId(e.target.value)}
-          placeholder="MediaId"
-        />
-        <Input
-          value={mediaType}
-          onChange={(e) => setMediaType(e.target.value)}
-          placeholder="MediaType"
-        />
-        </Space>
-        <Space>
-        <Input
-          value={mediaTitle}
-          onChange={(e) => setMediaTitle(e.target.value)}
-          placeholder="MediaTitle"
-        />
-        <Input
-          value={mediaPoster}
-          onChange={(e) => setMediaPoster(e.target.value)}
-          placeholder="MediaPoster"
-        />
-        <Input
-          value={mediaRate}
-          onChange={(e) => setMediaRate(e.target.value)}
-          placeholder="MediaRate"
-        />
-        </Space>
-        <Button type="primary"  onClick={handleAddFilm}>
-          Add Film
+        <Button 
+          type="primary"
+          onClick={showModal}
+          >
+          Add film
         </Button>
+      
+        <Modal
+          title="Add "
+          open={open}
+          onOk={handleOk}
+          confirmLoading={confirmLoading}
+          onCancel={handleCancel}
+        >
+          <Form>
+            <Form.Item>
+              <label >Add films</label>
+              <Input
+                value={moviesname}
+                onChange={(e) => setMoviesname(e.target.value)}
+                placeholder="Films"
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <label >MeadiaId</label>
+              <Input
+                value={mediaId}
+                onChange={(e) => setMediaId(e.target.value)}
+                placeholder="MediaId"
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <label >MediaType</label> 
+              <Select
+                value={mediaType}
+                onChange={(value) => setMediaType(value)}
+                placeholder="MediaType"
+                style={{
+                  width: "100%",
+                }}
+                options={[
+                  {
+                    value: 'tv',
+                    label: 'tv',
+                  },
+                  {
+                    value: 'movie',
+                    label: 'movie',
+                  },
+                ]}
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <label >MediaTitle</label>
+              <Input
+                value={mediaTitle}
+                onChange={(e) => setMediaTitle(e.target.value)}
+                placeholder="MediaTitle"
+              />
+            </Form.Item>
+
+            <Form.Item>
+            <label >MediaPoster</label>
+              <Input
+                value={mediaPoster}
+                onChange={(e) => setMediaPoster(e.target.value)}
+                placeholder="MediaPoster"
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <label >MediaRate</label>
+              <Input
+                value={mediaRate}
+                onChange={(e) => setMediaRate(e.target.value)}
+                placeholder="MediaRate"
+              />
+            </Form.Item>
+          </Form>
+        </Modal>
       </Space>
       <Table 
         columns={[
@@ -112,13 +179,13 @@ const Films = () => {
           { title: "MediaTitle", dataIndex: "mediaTitle", key: "mediaTitle", },
           { title: "MediaPoster", dataIndex: "mediaPoster", key: "mediaPoster", },
           { title: "MediaRate", dataIndex: "mediaRate", key: "mediaRate", },
-          // { title: "CreatedAt",  dataIndex: "createdAt", key: "createdAt", },
+          { title: "CreatedAt",  dataIndex: "createdAt", key: "createdAt", },
           // { title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt", },
           { title: "Delete", dataIndex: "Delete", key: "delete",
             render: (text, record) => (
               <Space size="middle">
                 <Popconfirm
-                  title="Bạn có chắc chắn muốn xóa?"
+                  title="Are you sure you want to delete?"
                   onConfirm={() => handleDelete(record)}
                 > 
                 <Button>
@@ -131,7 +198,7 @@ const Films = () => {
         ]}
         dataSource={films}
         pagination={{
-          pageSize: 4
+          pageSize: 5
         }}
       />
       </Space>

@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
 import { AppBar, Box, Button, IconButton, Stack, Toolbar, useScrollTrigger } from "@mui/material";
-import { cloneElement, useState } from "react";
+import { cloneElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import menuConfigs from "../../configs/menu.configs";
 import { themeModes } from "../../configs/theme.configs";
@@ -44,7 +44,9 @@ const Topbar = () => {
   };
 
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
+  useEffect(()=>{
+    if(!user)  dispatch(setAuthModalOpen(true))
+  },[dispatch, user])
   return (
     <>
       <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
@@ -93,7 +95,6 @@ const Topbar = () => {
               </IconButton>
             </Box>
             {/* main menu */}
-
             {/* user menu */}
             <Stack spacing={3} direction="row" alignItems="center">
               {!user && <Button

@@ -22,6 +22,8 @@ import viewApi from "../api/moudules/view.api.js"
 import { setGlobalLoading } from "../redux/features/globalLoadingSlice";
 import { setAuthModalOpen } from "../redux/features/authModalSlice";
 import { addFavorite, addView, removeFavorite } from "../redux/features/userSlice";
+import BackdropSlide from "../components/common/BackdropSide";
+import PosterSlide from "../components/common/PosterSlide";
 
 import CastSlide from "../components/common/CastSlide";
 
@@ -95,6 +97,7 @@ const MediaDetail = () => {
   const onViewClick = async () => {
 
     if (onRequest) return;
+
     setOnRequest(true);
 
     const body = {
@@ -250,9 +253,27 @@ const MediaDetail = () => {
                 </Stack>
               </Box>
               {/* media info */}
+              
             </Box>
           </Box>
           {/* media content */}
+
+          {/* media backdrop */}
+          {media.images.backdrops.length > 0 && (
+            <Container header="backdrops">
+              <BackdropSlide backdrops={media.images.backdrops} />
+            </Container>
+          )}
+          {/* media backdrop */}
+
+          {/* media posters */}
+          {media.images.posters.length > 0 && (
+            <Container header="posters">
+              <PosterSlide posters={media.images.posters} />
+            </Container>
+          )}
+          {/* media posters */}
+          
         </Box>
       </>
     ) : null

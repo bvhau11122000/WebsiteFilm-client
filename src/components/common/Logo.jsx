@@ -6,7 +6,7 @@ const Logo = () => {
   return (
     <>
     <Typography fontWeight="700" fontSize="1.7rem">
-      VanHau<span style={{ color: theme.palette.primary.main }}>MOVIE FILM</span>
+      <span style={{ color: theme.palette.primary.main }}>MOVIE FILM</span>
     </Typography>
     </>
   );

@@ -7,7 +7,7 @@ const Header = () => {
   
   return (
     <div className="DbHeader">
-      <h1 >VANHAU</h1>
+      <h1 >Vanhau2000</h1>
       <div className="DbHeader_item">
         <User />
       </div>

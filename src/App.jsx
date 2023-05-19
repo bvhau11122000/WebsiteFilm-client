@@ -71,6 +71,7 @@ const App = () => {
               )
             ))}
           </Route> 
+          {/** Route Admin */}
           <Route element={<AdminLayout/>}>
               <Route path="/admin/*" element={<h1>PAGE NOT FOUND</h1>}/>
               <Route path="/admin" element={<HomePageAdmin/>}/>

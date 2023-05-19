@@ -220,5 +220,4 @@ function Inf() {
   );
 }
 
-
 export default HomePageAdmin;

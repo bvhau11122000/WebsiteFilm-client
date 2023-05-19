@@ -28,7 +28,7 @@ const AuthModal = () => {
 
   return (
     <div>
-    <Modal open={authModalOpen} onClose={handleClose}>
+    <Modal open={authModalOpen}>
       <Box sx={{
         position: "absolute",
         top: "50%",

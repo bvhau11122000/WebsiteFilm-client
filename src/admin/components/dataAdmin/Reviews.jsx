@@ -41,13 +41,13 @@ const Reviews = () => {
             { title: "MediaId", dataIndex: "mediaId", key: "mediaId",},
             { title: "MediaTitle", dataIndex: "mediaTitle",key: "mediaTitle",},
             { title: "MediaPoster", dataIndex: "mediaPoster", key: "mediaPoster", },
-            // { title: "CreatedAt", dataIndex: "createdAt", key: "createdAt",},
+            { title: "CreatedAt", dataIndex: "createdAt", key: "createdAt",},
             // { title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt",},
             { title: "Delete", dataIndex: "Delete", key: "delete",
               render: (text, record) => (
                 <Space size="middle">
                   <Popconfirm
-                    title="Bạn có chắc chắn muốn xóa?"
+                    title="Are you sure you want to delete?"
                     onConfirm={() => handleDelete(record)}
                   > 
                   <Button>
@@ -59,7 +59,7 @@ const Reviews = () => {
             }
           ]}
           pagination={{
-          pageSize: 5
+          pageSize: 6
         }}
       />
     </Space>

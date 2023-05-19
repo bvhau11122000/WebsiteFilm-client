@@ -2,6 +2,7 @@ import React, {useState,useEffect} from 'react'
 import { Popconfirm, Space, Table, Button } from "antd";
 import {  DeleteOutlined,} from "@ant-design/icons";
 import favoriteApi from '../../../api/moudules/favorite.api';
+import "../../layout/layout.css"
 const Favorites = () => {
    
   const [favorite, setFavorites] = useState([]);
@@ -31,7 +32,7 @@ const Favorites = () => {
 
   
   return (
-    <div>
+    <div >
       <Space size={20} direction="vertical">
       
       <Table 
@@ -42,8 +43,8 @@ const Favorites = () => {
           { title: "MediaId", dataIndex: "mediaId", key: "mediaId",},
           { title: "MediaTitle", dataIndex: "mediaTitle", key: "mediaTitle", },
           { title: "MediaPoster", dataIndex: "mediaPoster", key: "mediaPoster", },
-          // { title: "CreatedAt",  dataIndex: "createdAt", key: "createdAt", },
-          // { title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt", },
+          { title: "CreatedAt",  dataIndex: "createdAt", key: "createdAt", },
+          { title: "UpdatedAt", dataIndex: "updatedAt", key: "updatedAt", },
           { title: "Delete", dataIndex: "Delete", key: "delete",
             render: (text, record) => (
               <Space size="middle">
